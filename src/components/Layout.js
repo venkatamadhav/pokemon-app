@@ -1,8 +1,11 @@
 import React from 'react'
+import Cards from './Cards'
 
 const Layout = () => {
   return (
-    <div>Layout</div>
+    <div className='bg-gray-300'>
+      <Cards />
+    </div>
   )
 }
 
