@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState , useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Cards = () => {
   const [pokemonData, setPokemonData] = useState(null);
@@ -7,7 +8,7 @@ const Cards = () => {
   const [pageno, setPageno] = useState(0);
 
   
-  const fetchData = async (id) => {
+  const fetchData = async () => {
     try {
       const offset = pageno * 20;
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
@@ -34,7 +35,7 @@ const Cards = () => {
   const next=()=>{
     setPageno(prevpage=>{return prevpage+1})
   }
-  
+  document.title = `Pokemon`;
   return (
     <>
       <div className='flex flex-wrap justify-center mx-auto'>
@@ -64,6 +65,7 @@ const Cards = () => {
                   };
               return (    
                 <div key={pokemon.id} className="card p-4">
+                  <Link to={`/pokemon/${pokemon.id}`}>
                     <div className='bg-gray-200 p-4 rounded'>
                         <img 
                             // src={pokemon.sprites.other.dream_world.front_default} 
@@ -83,6 +85,7 @@ const Cards = () => {
                             <span className='text-3xl capitalize '>{pokemon.name}</span>
                         </p>
                     </div>
+                    </Link>
                 </div>
               )
               })
