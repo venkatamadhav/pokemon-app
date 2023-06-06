@@ -5,19 +5,30 @@ const PokemonDetails = () => {
   const { id } = useParams();
 // console.log(id);
 const [pokeData, setPokeData] = useState(null);
-const fetchData = async () => {
-  try {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    const data = await res.json();
-    setPokeData(data);
+// const fetchData = async () => {
+//   try {
+//     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+//     // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+//     const data = await res.json();
+//     setPokeData(data);
     
-     } catch (err) {
-    console.log(err);
-  }
-};
+//      } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+      const data = await res.json();
+      setPokeData(data);
+      
+       } catch (err) {
+      console.log(err);
+    }
+  };
   fetchData();
   
 }, [id]);

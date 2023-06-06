@@ -8,25 +8,43 @@ const Cards = () => {
   const [pageno, setPageno] = useState(0);
 
   
-  const fetchData = async () => {
-    try {
-      const offset = pageno * 20;
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
-      // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-      const data = await res.json();
-      // setPokemonData(data);
-      const pokemonList = data.results.map(async (pokemon) => {
-        const res = await fetch(pokemon.url);
-        return res.json();
-      });
-      const pokemonData = await Promise.all(pokemonList);
-      setPokemonData(pokemonData);
-      setLoading(false)
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const offset = pageno * 20;
+  //     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
+  //     // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  //     const data = await res.json();
+  //     // setPokemonData(data);
+  //     const pokemonList = data.results.map(async (pokemon) => {
+  //       const res = await fetch(pokemon.url);
+  //       return res.json();
+  //     });
+  //     const pokemonData = await Promise.all(pokemonList);
+  //     setPokemonData(pokemonData);
+  //     setLoading(false)
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const offset = pageno * 20;
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
+        // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+        const data = await res.json();
+        // setPokemonData(data);
+        const pokemonList = data.results.map(async (pokemon) => {
+          const res = await fetch(pokemon.url);
+          return res.json();
+        });
+        const pokemonData = await Promise.all(pokemonList);
+        setPokemonData(pokemonData);
+        setLoading(false)
+      } catch (err) {
+        console.log(err);
+      }
+    };
     fetchData();
   }, [pageno]);
   const previous=()=>{
