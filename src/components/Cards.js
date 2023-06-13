@@ -6,34 +6,16 @@ const Cards = () => {
   const [pokemonData, setPokemonData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pageno, setPageno] = useState(0);
+  const [input, setInput] = useState("");
+  const [filter, setFilter] = useState("All");
+  const [searchResults , setSearchResults] = useState([])
 
-  
-  // const fetchData = async () => {
-  //   try {
-  //     const offset = pageno * 20;
-  //     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
-  //     // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-  //     const data = await res.json();
-  //     // setPokemonData(data);
-  //     const pokemonList = data.results.map(async (pokemon) => {
-  //       const res = await fetch(pokemon.url);
-  //       return res.json();
-  //     });
-  //     const pokemonData = await Promise.all(pokemonList);
-  //     setPokemonData(pokemonData);
-  //     setLoading(false)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
   useEffect(() => {
     const fetchData = async () => {
       try {
         const offset = pageno * 20;
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
-        // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
         const data = await res.json();
-        // setPokemonData(data);
         const pokemonList = data.results.map(async (pokemon) => {
           const res = await fetch(pokemon.url);
           return res.json();
@@ -53,14 +35,68 @@ const Cards = () => {
   const next=()=>{
     setPageno(prevpage=>{return prevpage+1})
   }
+  const filterchange = (e) => {
+    // const filtervalue = e.target.value.toLowerCase();
+    // setFilter(filtervalue)
+    setFilter(e.target.value.toLowerCase());
+  }
+  const inputchange = (e) => {
+    const inputvalue = e.target.value.toLowerCase();
+    setInput(inputvalue)
+  }
+  useEffect(() => {
+    if (pokemonData) {
+      const filteredResults = pokemonData.filter((pokemon) => {
+        if (filter === 'All') {
+          return (
+            pokemon.name.toLowerCase().includes(input) ||
+            pokemon.id.toString().includes(input)
+          );
+        } else {
+          return (
+            (pokemon.name.toLowerCase().includes(input) || pokemon.id.toString().includes(input)) &&
+            pokemon.types.some((type) => type.type.name.toLowerCase() === filter)
+          );
+        }
+      });
+      setSearchResults(filteredResults);
+    }
+  }, [pokemonData, input, filter]);
   document.title = `Pokemon`;
   return (
     <>
+      <div className='flex justify-center pt-4'>
+        <input type="text" className='mx-8 w-full sm:w-3/4 bg-gray-100 px-6 py-2 rounded border border-pokemon-yellow outline-none' placeholder='Search' onChange={inputchange} value={input}/>
+      </div>
+      <div className="flex px-8 sm:px-16 py-4 items-center">
+        <label htmlFor="types" className="block mr-6 font-medium text-gray-900 text-lg sm:text-2xl">Type</label>
+        <select name="types" id="types" defaultValue={"All"} onChange={filterchange} value={filter} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 sm:p-2.5">
+            <option value="All" >All</option>
+            <option value="Normal">Normal</option>
+            <option value="Fire">Fire</option>
+            <option value="Water">Water</option>
+            <option value="Electric">Electric</option>
+            <option value="Grass">Grass</option>
+            <option value="Ice">Ice</option>
+            <option value="Fighting">Fighting</option>
+            <option value="Poison">Poison</option>
+            <option value="Ground">Ground</option>
+            <option value="Flying">Flying</option>
+            <option value="Psychic">Psychic</option>
+            <option value="Bug">Bug</option>
+            <option value="Rock">Rock</option>
+            <option value="Ghost">Ghost</option>
+            <option value="Dragon">Dragon</option>
+            <option value="Dark">Dark</option>
+            <option value="Steel">Steel</option>
+            <option value="Fairy">Fairy</option>
+        </select>
+      </div>
       <div className='flex flex-wrap justify-center mx-auto'>
           {loading ? (
               <h3>Loading...</h3>
-              ) : ( 
-              pokemonData.map((pokemon) => {
+              ) : searchResults.length > 0 ? ( 
+              searchResults.map((pokemon) => {
                 const styles = {
                   normal: '#A8A77A',
                   fire: "#EE8130",
@@ -107,7 +143,10 @@ const Cards = () => {
                 </div>
               )
               })
-          )}
+            )
+            :(
+            <h3>No results found.</h3>
+             )}
       </div>
       <div className='container mx-auto flex flex-wrap justify-between pb-4'>
         <button 
