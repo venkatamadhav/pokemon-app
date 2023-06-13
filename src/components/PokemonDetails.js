@@ -59,81 +59,85 @@ console.log(pokeData);
        { pokeData ? 
        ( 
         <>
-          <div className='flex-1'>
+          <div className='flex-1 flex justify-center items-center'>
             <img 
             src={pokeData.sprites.other.dream_world.front_default || pokeData.sprites.other.home.front_default || pokeData.sprites.other["official-artwork"].front_default || pokeData.sprites.front_shiny} 
-            alt={pokeData.name}  />
+            alt={pokeData.name} 
+            style={{ maxWidth: '100%' }}
+             />
           </div>
-          <div className='flex-1'>
-            <p className='text-4xl font-semibold'>
-              <span>#{pokeData.id}.</span>
-              <span className='capitalize'>{pokeData.name}</span>
-            </p>
-            <p>
-              <span>Height: &nbsp;</span>
-              <span>{pokeData.height}</span>
-            </p>
-            <p>
-              <span>Weight: &nbsp;</span>
-              <span>{pokeData.weight}</span>
-            </p>
-            <div className='flex justify-center'>
-                <p className='text-white text-2xl font-semibold mr-2 px-4 rounded capitalize' style={{backgroundColor:styles[pokeData.types[0].type.name]}}>{pokeData.types[0].type.name}</p>
-                {pokeData.types.length > 1 && <p className='text-white text-2xl font-semibold mr-2 px-4 rounded capitalize' style={{backgroundColor:styles[pokeData.types[1].type.name]}}>{pokeData.types[1].type.name}</p>}
-            </div>
-            <div>
-              <div className="flex justify-between">
-                  <span>HP</span>
-                  <span>{pokeData.stats[0].base_stat}</span>
-                </div>
-                <div className="h-4 w-full bg-gray-900 rounded-full">
-                  <div className="h-4 rounded-full" style={{backgroundColor:"#da4343", width:parseInt(pokeData.stats[0].base_stat)*2.55}}></div>
-                </div>
-            </div>
-            <div>
-              <div className="flex justify-between">
-                    <span>ATTACK</span>
-                    <span>{pokeData.stats[1].base_stat}</span>
-              </div>
-              <div className="h-4 w-full bg-gray-900 rounded-full">
-                    <div className="h-4 rounded-full" style={{backgroundColor:"#f38d45", width:parseInt(pokeData.stats[1].base_stat)*1.81}}></div>
-              </div>
-            </div>
-            <div>
-              <div>
-                <div className="flex justify-between">
-                      <span>DEFENCE</span>
-                      <span>{pokeData.stats[2].base_stat}</span>
-                </div>
-                <div className="h-4 w-full bg-gray-900 rounded-full">
-                      <div className="h-4 rounded-full" style={{backgroundColor:"#f3d14a", width:parseInt(pokeData.stats[2].base_stat)*2.3}}></div>
-                </div>
+          <div className='flex-1 min-h-screen pb-24 pr-4 bg-gray-300 flex flex-wrap sm:flex-nowrap justify-center items-center'>
+            <div className='flex-1'>
+              <p className='text-4xl font-semibold'>
+                <span>#{pokeData.id}.</span>
+                <span className='capitalize'>{pokeData.name}</span>
+              </p>
+              <p>
+                <span>Height: &nbsp;</span>
+                <span>{pokeData.height}</span>
+              </p>
+              <p>
+                <span>Weight: &nbsp;</span>
+                <span>{pokeData.weight}</span>
+              </p>
+              <div className='flex justify-center '>
+                  <p className='text-white text-2xl font-semibold mr-2 px-4 rounded capitalize' style={{backgroundColor:styles[pokeData.types[0].type.name]}}>{pokeData.types[0].type.name}</p>
+                  {pokeData.types.length > 1 && <p className='text-white text-2xl font-semibold mr-2 px-4 rounded capitalize' style={{backgroundColor:styles[pokeData.types[1].type.name]}}>{pokeData.types[1].type.name}</p>}
               </div>
               <div>
                 <div className="flex justify-between">
-                      <span>SPECIAL-ATTACK</span>
-                      <span>{pokeData.stats[3].base_stat}</span>
-                </div>
-                <div className="h-4 w-full bg-gray-900 rounded-full">
-                      <div className="h-4 rounded-full" style={{backgroundColor:"#547fe4", width:parseInt(pokeData.stats[3].base_stat)*1.73}}></div>
-                </div>
+                    <span>HP</span>
+                    <span>{pokeData.stats[0].base_stat}</span>
+                  </div>
+                  <div className="h-4 w-full bg-gray-900 rounded-full">
+                    <div className="h-4 rounded-full" style={{backgroundColor:"#da4343", width:parseInt(pokeData.stats[0].base_stat)*2.55}}></div>
+                  </div>
               </div>
               <div>
                 <div className="flex justify-between">
-                      <span>SPECIAL-DEFENCE</span>
-                      <span>{pokeData.stats[4].base_stat}</span>
+                      <span>ATTACK</span>
+                      <span>{pokeData.stats[1].base_stat}</span>
                 </div>
                 <div className="h-4 w-full bg-gray-900 rounded-full">
-                      <div className="h-4 rounded-full" style={{backgroundColor:"#84df57", width:parseInt(pokeData.stats[4].base_stat)*2.3}}></div>
+                      <div className="h-4 rounded-full" style={{backgroundColor:"#f38d45", width:parseInt(pokeData.stats[1].base_stat)*1.81}}></div>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between">
-                      <span>SPEED</span>
-                      <span>{pokeData.stats[5].base_stat}</span>
+                <div>
+                  <div className="flex justify-between">
+                        <span>DEFENCE</span>
+                        <span>{pokeData.stats[2].base_stat}</span>
+                  </div>
+                  <div className="h-4 w-full bg-gray-900 rounded-full">
+                        <div className="h-4 rounded-full" style={{backgroundColor:"#f3d14a", width:parseInt(pokeData.stats[2].base_stat)*2.3}}></div>
+                  </div>
                 </div>
-                <div className="h-4 w-full bg-gray-900 rounded-full">
-                      <div className="h-4 rounded-full" style={{backgroundColor:"#f75887", width:parseInt(pokeData.stats[5].base_stat)*2.0}}></div>
+                <div>
+                  <div className="flex justify-between">
+                        <span>SPECIAL-ATTACK</span>
+                        <span>{pokeData.stats[3].base_stat}</span>
+                  </div>
+                  <div className="h-4 w-full bg-gray-900 rounded-full">
+                        <div className="h-4 rounded-full" style={{backgroundColor:"#547fe4", width:parseInt(pokeData.stats[3].base_stat)*1.73}}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between">
+                        <span>SPECIAL-DEFENCE</span>
+                        <span>{pokeData.stats[4].base_stat}</span>
+                  </div>
+                  <div className="h-4 w-full bg-gray-900 rounded-full">
+                        <div className="h-4 rounded-full" style={{backgroundColor:"#84df57", width:parseInt(pokeData.stats[4].base_stat)*2.3}}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between">
+                        <span>SPEED</span>
+                        <span>{pokeData.stats[5].base_stat}</span>
+                  </div>
+                  <div className="h-4 w-full bg-gray-900 rounded-full">
+                        <div className="h-4 rounded-full" style={{backgroundColor:"#f75887", width:parseInt(pokeData.stats[5].base_stat)*2.0}}></div>
+                  </div>
                 </div>
               </div>
             </div>
