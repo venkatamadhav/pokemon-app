@@ -3,7 +3,7 @@ import Layout from './components/Layout';
 import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import PokemonDetails from './components/PokemonDetails';
-
+import Footer from './components/Footer';
 
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
         <Route path="/" element={<Layout />} />
         <Route path="/pokemon/:id" element={<PokemonDetails />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
