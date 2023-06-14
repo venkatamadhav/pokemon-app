@@ -5,22 +5,25 @@ import { Link } from 'react-router-dom';
 const Cards = () => {
   const [pokemonData, setPokemonData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [pageno, setPageno] = useState(0);
   const [input, setInput] = useState("");
   const [filter, setFilter] = useState("All");
-  const [searchResults , setSearchResults] = useState([])
+  const [searchResults , setSearchResults] = useState([]);
+  const [CurrentPage, setCurrentPage] = useState(1);
 
+  const itemsperpage = 20;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const offset = pageno * 20;
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
+        // const offset = pageno * 20;
+        // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`);
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=1281`);
         const data = await res.json();
         const pokemonList = data.results.map(async (pokemon) => {
           const res = await fetch(pokemon.url);
           return res.json();
         });
         const pokemonData = await Promise.all(pokemonList);
+        console.log(pokemonData);
         setPokemonData(pokemonData);
         setLoading(false)
       } catch (err) {
@@ -28,22 +31,8 @@ const Cards = () => {
       }
     };
     fetchData();
-  }, [pageno]);
-  const previous=()=>{
-    setPageno(prevpage=>{return prevpage-1})
-  }
-  const next=()=>{
-    setPageno(prevpage=>{return prevpage+1})
-  }
-  const filterchange = (e) => {
-    // const filtervalue = e.target.value.toLowerCase();
-    // setFilter(filtervalue)
-    setFilter(e.target.value.toLowerCase());
-  }
-  const inputchange = (e) => {
-    const inputvalue = e.target.value.toLowerCase();
-    setInput(inputvalue)
-  }
+  }, []);
+ 
   useEffect(() => {
     if (pokemonData) {
       const filteredResults = pokemonData.filter((pokemon) => {
@@ -63,7 +52,26 @@ const Cards = () => {
       setSearchResults(filteredResults);
     }
   }, [pokemonData, input, filter]);
+  const previous=()=>{
+    setCurrentPage(prevpage=>{return prevpage-1})
+  }
+  const next=()=>{
+    setCurrentPage(prevpage=>{return prevpage+1})
+  }
+  const filterchange = (e) => {
+    setFilter(e.target.value.toLowerCase());
+  }
+  const inputchange = (e) => {
+    const inputvalue = e.target.value.toLowerCase();
+    setInput(inputvalue)
+  }
+  
+  const startIndex = (CurrentPage-1) * itemsperpage;
+  const endIndex = startIndex +itemsperpage;
+  const displayedItems = searchResults.slice(startIndex, endIndex);
   document.title = `Pokemon`;
+  const totalPages = Math.ceil(searchResults.length / itemsperpage);
+  
   return (
     <>
       <div className='flex justify-center pt-4'>
@@ -97,7 +105,7 @@ const Cards = () => {
           {loading ? (
               <h3>Loading...</h3>
               ) : searchResults.length > 0 ? ( 
-              searchResults.map((pokemon) => {
+              displayedItems.map((pokemon) => {
                 const styles = {
                   normal: '#A8A77A',
                   fire: "#EE8130",
@@ -153,12 +161,12 @@ const Cards = () => {
         <button 
           className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:bg-gray-700' 
           onClick={previous}
-          disabled={pageno===0?true:false}
+          disabled={CurrentPage === 1}
           >Previous</button>
         <button 
         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:bg-gray-700' 
         onClick={next}
-         disabled={pageno===64?true:false}
+        disabled={CurrentPage === totalPages}
         >Next</button>
       </div>
     </>
