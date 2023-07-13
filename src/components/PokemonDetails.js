@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect , useState } from 'react';
 import { useParams } from 'react-router-dom';
+import PokeSkeleton from './PokeSkeleton';
 const PokemonDetails = () => {
   const { id } = useParams();
 // console.log(id);
@@ -55,6 +56,7 @@ const styles = {
 document.title = `${pokeData?.name || "Loading..."}`;
 console.log(pokeData);
   return (
+    <>
     <div className='min-h-screen pt-8 bg-gray-300 flex flex-wrap sm:flex-nowrap justify-center mx-auto'>
        { pokeData ? 
        ( 
@@ -144,10 +146,10 @@ console.log(pokeData);
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <PokeSkeleton />
       )}
     </div>
-  )
+    </>)
 };
 
 export default PokemonDetails

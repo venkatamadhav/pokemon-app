@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import CardSkeleton from './CardSkeleton';
 
 const Cards = () => {
   const [pokemonData, setPokemonData] = useState(null);
@@ -103,7 +104,7 @@ const Cards = () => {
       </div>
       <div className='flex flex-wrap justify-center mx-auto'>
           {loading ? (
-              <h3>Loading...</h3>
+              <div><CardSkeleton /> </div>
               ) : searchResults.length > 0 ? ( 
               displayedItems.map((pokemon) => {
                 const styles = {
